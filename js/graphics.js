@@ -130,5 +130,49 @@ function cargarUsuariosGrafico() {
     });
 }
 
-// Llamar a la función para cargar los gráficos al cargar la página
-window.onload = cargarUsuariosGrafico;
+// Función para obtener los datos de las solicitudes
+function cargarSolicitudesGrafico() {
+    fetch('../models/M_Create_Solicitudes.php', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Obtener la cantidad de solicitudes
+        const cantidadSolicitudes = data.cantidad_solicitudes;
+
+        // Crear los datos para el gráfico de barras (cantidad de solicitudes)
+        const barChartData = {
+            labels: ['Solicitudes'],
+            datasets: [{
+                label: 'Cantidad de Solicitudes',
+                data: [cantidadSolicitudes],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Crear el gráfico de barras
+        const ctxBar = document.getElementById('solicitudesBarChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: barChartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error al cargar las solicitudes:', error);
+    });
+}
+
+// Llamar a la función para cargar ambos gráficos al cargar la página
+window.onload = function() {
+    cargarUsuariosGrafico();
+    cargarSolicitudesGrafico();
+};

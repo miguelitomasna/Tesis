@@ -230,41 +230,51 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
             </div>
           </nav>
 
+          <?php
+          // Incluir archivo de conexión a la base de datos
+          include('../config/conexion.php');
+
+          // Consulta para obtener la cantidad de solicitudes
+          $query = "SELECT COUNT(*) as cantidad_solicitudes FROM problemas";
+          $stmt = $conexion->prepare($query);
+          $stmt->execute();
+          $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+          $cantidad_solicitudes = $resultado['cantidad_solicitudes'];
+          ?>
+
         <!-- Content wrapper -->
         <div class="content-wrapper">
             <!-- Content -->
             <div class="container-xxl flex-grow-1 container-p-y">
                 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Fiscalía de Huánuco /</span> Dashboard</h4>
 
-                <!-- Tarjeta para los gráficos -->
+                <!-- Card para los gráficos -->
                 <div class="card">
-                    <h5 class="card-header">Gráficos de Actividad</h5>
+                    <h5 class="card-header">Gráficos de Usuarios y Solicitudes</h5>
                     <div class="card-body">
                         <div class="row">
-                            <!-- Gráfico de barras -->
-                            <div class="col-lg-6 col-md-12 mb-4">
-                                <canvas id="usuariosBarChart" style="max-height: 330px;"></canvas>
+                            <!-- Primer gráfico: Solicitudes Bar Chart (ahora en primer lugar) -->
+                            <div class="col-md-6 mb-4">
+                                <canvas id="solicitudesBarChart" class="w-100"></canvas>
                             </div>
-
-                            <!-- Gráfico circular -->
-                            <div class="col-lg-6 col-md-12 mb-4">
-                                <canvas id="usuariosPieChart" style="max-height: 330px;"></canvas>
+                            <!-- Segundo gráfico: Usuarios Bar Chart -->
+                            <div class="col-md-6 mb-4">
+                                <canvas id="usuariosBarChart" class="w-100"></canvas>
                             </div>
                         </div>
-                        
                         <div class="row">
-                            <!-- Gráfico de porcentajes -->
-                            <div class="col-lg-6 col-md-12 mb-4">
-                                <canvas id="usuariosDoughnutChart" style="max-height: 330px;"></canvas>
+                            <!-- Tercer gráfico: Usuarios Pie Chart -->
+                            <div class="col-md-6 mb-4">
+                                <canvas id="usuariosPieChart" class="w-100"></canvas>
                             </div>
-
-                            <!-- Gráfico de líneas o histograma -->
-                            <div class="col-lg-6 col-md-12 mb-4">
-                                <canvas id="usuariosLineChart" style="max-height: 330px;"></canvas>
+                            <!-- Cuarto gráfico: Usuarios Doughnut Chart -->
+                            <div class="col-md-6 mb-4">
+                                <canvas id="usuariosDoughnutChart" class="w-100"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
             <!-- / Content -->
         </div>
