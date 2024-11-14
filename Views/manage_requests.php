@@ -15,18 +15,6 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
 ?>
 
 <!DOCTYPE html>
-
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
- -->
 <!-- beautify ignore:start -->
 <html
   lang="en"
@@ -43,7 +31,7 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Dashboard - Fiscalía de Huánuco</title>
+    <title>Gestionar Solicitudes - Fiscalía de Huánuco</title>
 
     <meta name="description" content="" />
 
@@ -69,8 +57,6 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
-
     <!-- Page CSS -->
 
     <!-- Helpers -->
@@ -79,9 +65,6 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
-    
-    <!-- Biblioteca Chart -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
@@ -105,7 +88,7 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
 
             <ul class="menu-inner py-1">
                 <!-- Dashboard -->
-                <li class="menu-item active">
+                <li class="menu-item">
                     <a href="dashboard.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Dashboard</div>
@@ -129,7 +112,7 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
                     </a>
                 </li>
 
-                <li class="menu-item">
+                <li class="menu-item active">
                     <a href="manage_requests.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-message-square-detail"></i>
                         <div data-i18n="Tables">Gestionar Solicitudes</div>
@@ -146,11 +129,11 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
         </aside>
         <!-- / Menu -->
 
-
         <!-- Layout container -->
         <div class="layout-page">
-          
-        <!-- Nav inicio -->
+          <!-- Navbar -->
+
+          <!-- Nav inicio -->
         <nav
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar"
@@ -162,23 +145,22 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
             </div>
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-
-              <!-- Dashboard Welcome Message with Slower Sound Animation using Bootstrap only -->
-              <div class="navbar-nav align-items-center">
-                <div class="nav-item d-flex align-items-center">
-                  <!-- Slower Sound Wave Animation with Bootstrap spinners -->
-                  <div class="d-flex align-items-center me-2">
-                    <i class="spinner-grow text-primary" role="status" style="width: 0.5rem; height: 0.5rem; animation-duration: 2s;"></i>
-                    <i class="spinner-grow text-primary ms-1" role="status" style="width: 0.75rem; height: 0.75rem; animation-duration: 2s;"></i>
-                    <i class="spinner-grow text-primary ms-1" role="status" style="width: 1rem; height: 1rem; animation-duration: 2s;"></i>
-                  </div>
-                  <!-- Welcome Text for the Dashboard -->
-                  <span class="text-muted ms-2">
-                    ¡Hola! Bienvenido al <strong>Dashboard</strong>. Aquí puedes gestionar tus reportes, análisis y métricas en tiempo real.
-                  </span>
+            <!-- Welcome Message with Slower Sound Animation using Bootstrap only -->
+            <div class="navbar-nav align-items-center">
+            <div class="nav-item d-flex align-items-center">
+                <!-- Slower Sound Wave Animation with Bootstrap spinners -->
+                <div class="d-flex align-items-center me-2">
+                <i class="spinner-grow text-primary" role="status" style="width: 0.5rem; height: 0.5rem; animation-duration: 2s;"></i>
+                <i class="spinner-grow text-primary ms-1" role="status" style="width: 0.75rem; height: 0.75rem; animation-duration: 2s;"></i>
+                <i class="spinner-grow text-primary ms-1" role="status" style="width: 1rem; height: 1rem; animation-duration: 2s;"></i>
                 </div>
-              </div>
-              <!-- /Dashboard Welcome Message with Slower Sound Animation using Bootstrap only -->
+                <!-- Welcome Text -->
+                <span class="text-muted">
+                ¡Hola! Bienvenido al módulo de<strong> Gestionar Solicitudes</strong>. Aquí puedes revisar y gestionar todas las solicitudes de la Fiscalía. ¡Tu gestión comienza ahora!
+                </span>
+            </div>
+            </div>
+            <!-- /Welcome Message with Slower Sound Animation using Bootstrap only -->
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Microphone Button -->
@@ -229,48 +211,116 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
               </ul>
             </div>
           </nav>
+          <!-- / Navbar -->
 
-        <!-- Content wrapper -->
-        <div class="content-wrapper">
-            <!-- Content -->
-            <div class="container-xxl flex-grow-1 container-p-y">
-                <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Fiscalía de Huánuco /</span> Dashboard</h4>
+          <?php
+            // Incluir archivo de conexión a la base de datos
+            include('../config/conexion.php');
 
-                <!-- Tarjeta para los gráficos -->
-                <div class="card">
-                    <h5 class="card-header">Gráficos de Actividad</h5>
-                    <div class="card-body">
-                        <div class="row">
-                            <!-- Gráfico de barras -->
-                            <div class="col-lg-6 col-md-12 mb-4">
-                                <canvas id="usuariosBarChart" style="max-height: 330px;"></canvas>
-                            </div>
+            // Consulta para obtener todos los problemas
+            $query = "SELECT * FROM problemas";
+            $stmt = $conexion->prepare($query);
+            $stmt->execute();
+            $problemas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            ?>
 
-                            <!-- Gráfico circular -->
-                            <div class="col-lg-6 col-md-12 mb-4">
-                                <canvas id="usuariosPieChart" style="max-height: 330px;"></canvas>
-                            </div>
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Fiscalía de Huánuco /</span> Gestionar Solicitudes</h4>
+
+                    <!-- Basic Bootstrap Table -->
+                    <div class="card">
+                        <h5 class="card-header">Gestión de Solicitudes</h5>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table" id="usuariosTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre Usuario</th>
+                                        <th>Destinatario</th>
+                                        <th>Tipo de Problema</th>
+                                        <th>Problema Descrito</th>
+                                        <th>Correo Destinatario</th>
+                                        <th>Fecha Creación</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0" id="usuariosTableBody">
+                                    <?php foreach ($problemas as $problema): ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($problema['nombre_usuario']); ?></td>
+                                            <td><?php echo htmlspecialchars($problema['destinatario']); ?></td>
+                                            <td><?php echo htmlspecialchars($problema['tipo_problema']); ?></td>
+                                            <td style="word-wrap: break-word; white-space: normal;"><?php echo htmlspecialchars($problema['problema_descrito']); ?></td>
+                                            <td><?php echo htmlspecialchars($problema['correo_destinatario']); ?></td>
+                                            <td><?php echo htmlspecialchars($problema['fecha_creacion']); ?></td>
+                                            <td>
+                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#visualizarModal<?php echo $problema['id']; ?>">Visualizar</button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
                         </div>
-                        
-                        <div class="row">
-                            <!-- Gráfico de porcentajes -->
-                            <div class="col-lg-6 col-md-12 mb-4">
-                                <canvas id="usuariosDoughnutChart" style="max-height: 330px;"></canvas>
-                            </div>
+                    </div>
+                </div>
+                <!-- / Content -->
+            </div>
+            <!-- Content wrapper -->
 
-                            <!-- Gráfico de líneas o histograma -->
-                            <div class="col-lg-6 col-md-12 mb-4">
-                                <canvas id="usuariosLineChart" style="max-height: 330px;"></canvas>
-                            </div>
+            <?php foreach ($problemas as $problema): ?>
+            <!-- Modal -->
+            <div class="modal fade" id="visualizarModal<?php echo $problema['id']; ?>" tabindex="-1" aria-labelledby="visualizarModalLabel" aria-hidden="true">
+                <!-- Modal Dialog centered -->
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="visualizarModalLabel">Detalles del Problema</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Nombre Usuario:</strong> <?php echo htmlspecialchars($problema['nombre_usuario']); ?></p>
+                            <p><strong>Destinatario:</strong> <?php echo htmlspecialchars($problema['destinatario']); ?></p>
+                            <p><strong>Tipo de Problema:</strong> <?php echo htmlspecialchars($problema['tipo_problema']); ?></p>
+                            <p><strong>Problema Descrito:</strong> <?php echo htmlspecialchars($problema['problema_descrito']); ?></p>
+                            <p><strong>Correo Destinatario:</strong> <?php echo htmlspecialchars($problema['correo_destinatario']); ?></p>
+                            <p><strong>Fecha Creación:</strong> <?php echo htmlspecialchars($problema['fecha_creacion']); ?></p>
+
+                            <?php if ($problema['imagen_adjunto']): ?>
+                                <p><strong>Imagen Adjunto:</strong></p>
+                                <!-- Contenedor para la imagen con tamaño fijo -->
+                                <div class="image-container" style="width: 100%; height: 250px; background-color: #f0f0f0; display: flex; justify-content: center; align-items: center; overflow: hidden; border: 1px solid #ccc; border-radius: 10px;">
+                                    <img src="data:image/jpeg;base64,<?php echo base64_encode($problema['imagen_adjunto']); ?>" alt="Imagen" class="img-fluid" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                                </div>
+                                <!-- Botón para descargar la imagen (único) -->
+                                <a href="data:image/jpeg;base64,<?php echo base64_encode($problema['imagen_adjunto']); ?>" download="imagen_<?php echo $problema['id']; ?>.jpg" class="btn btn-primary mt-3 w-auto d-block mx-auto">Descargar Imagen</a>
+                            <?php else: ?>
+                                <p>No hay imagen adjunta.</p>
+                            <?php endif; ?>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <!-- Botones centrados y tamaño ajustado en una sola fila -->
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=<?php echo htmlspecialchars($problema['correo_destinatario']); ?>&su=<?php echo urlencode('Problema Reportado por ' . $problema['nombre_usuario']); ?>&body=<?php echo urlencode(
+                                "Este correo está siendo enviado desde el sistema de la Fiscalía de Huánuco.\n\n" . 
+                                "Nombre Usuario: " . $problema['nombre_usuario'] . "\n" . 
+                                "Destinatario: " . $problema['destinatario'] . "\n" . 
+                                "Tipo de Problema: " . $problema['tipo_problema'] . "\n" . 
+                                "Problema Descrito: " . $problema['problema_descrito'] . "\n" . 
+                                "Correo Destinatario: " . $problema['correo_destinatario'] . "\n" . 
+                                "Fecha Creación: " . $problema['fecha_creacion'] . "\n\n" . 
+                                "Saludos, \nFiscalía de Huánuco"
+                            ); ?>" class="btn btn-primary mx-2">Enviar Correo</a>
+                            <!-- Eliminar uno de los botones de descarga de imagen -->
+                            <!-- <a href="data:image/jpeg;base64,<?php echo base64_encode($problema['imagen_adjunto']); ?>" download="imagen_<?php echo $problema['id']; ?>.jpg" class="btn btn-info mx-2">Descargar Imagen</a> -->
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- / Content -->
-        </div>
-        <!-- Content wrapper -->
+        <?php endforeach; ?>
 
-        <!-- Modal de Perfil de Usuario -->
+          <!-- Modal de Perfil de Usuario -->
         <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
@@ -333,20 +383,17 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
     <script src="../assets/vendor/js/menu.js"></script>
+    <script src="../js/panel_users/index.js"></script>
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
     <!-- Main JS -->
     <script src="../assets/js/main.js"></script>
     <script src="../js/microphone.js"></script>
-    <script src="../js/graphics.js"></script>
 
     <!-- Page JS -->
-    <script src="../assets/js/dashboards-analytics.js"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
-</html>

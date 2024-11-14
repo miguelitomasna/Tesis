@@ -8,7 +8,7 @@ function agregarUsuario() {
     const apellidos = document.getElementById('apellidos').value;
     const email = document.getElementById('email').value;
     const telefono = document.getElementById('telefono').value;
-    const rol = document.getElementById('rol').value;
+    const rol = document.getElementById('rol').value; // Aquí capturas el rol
     const password = document.getElementById('password').value;
 
     const nuevoUsuario = {
@@ -51,6 +51,7 @@ function agregarUsuario() {
         alert('Error al intentar agregar el usuario. Intente nuevamente.');
     });
 }
+
 
 let usuarioIdAEliminar = null;  // Variable global para almacenar el ID del usuario a eliminar
 
@@ -95,42 +96,86 @@ document.getElementById('confirmarEliminar').addEventListener('click', function(
     if (modalEliminar) modalEliminar.hide();
 });
 
-// Función para cargar los usuarios al cargar la página
+// Variables globales
+let usuarios = [];
+const registrosPorPagina = 12;
+let paginaActual = 1;
+
+// Función para cargar los usuarios (sin filtro)
 function cargarUsuarios() {
     fetch('../models/M_Create_User.php', {
         method: 'GET'
     })
     .then(response => response.json())
     .then(data => {
-        const tableBody = document.getElementById('usuariosTableBody');
-        tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar los usuarios
-
-        data.forEach(usuario => {
-            const nuevaFila = document.createElement('tr');
-            nuevaFila.innerHTML = `
-                <td>${usuario.nombre}</td>
-                <td>${usuario.apellidos}</td>
-                <td>${usuario.correo_electronico}</td>
-                <td>${usuario.telefono}</td>
-                <td><span class="badge bg-label-primary">${usuario.rol}</span></td>
-                <td>
-                    <div class="dropdown">
-                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Editar</a>
-                            <a class="dropdown-item" href="javascript:void(0);" onclick="eliminarUsuario(${usuario.id})"><i class="bx bx-trash me-1"></i> Eliminar</a>
-                        </div>
-                    </div>
-                </td>
-            `;
-            tableBody.appendChild(nuevaFila);
-        });
+        usuarios = data;  // Almacenar todos los usuarios
+        if (document.getElementById('searchInput').value.trim() === '') {
+            // Si no hay criterio de búsqueda, mostrar todos los usuarios
+            mostrarUsuarios();  // Mostrar los usuarios correspondientes a la página actual
+            configurarPaginacion();  // Configurar los botones de paginación
+        }
     })
     .catch(error => {
         console.error('Error al cargar los usuarios:', error);
     });
+}
+
+// Función para mostrar los usuarios de acuerdo a la página
+function mostrarUsuarios() {
+    const tableBody = document.getElementById('usuariosTableBody');
+    tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar los usuarios
+
+    // Calcular el inicio y fin de los registros de esta página
+    const inicio = (paginaActual - 1) * registrosPorPagina;
+    const fin = inicio + registrosPorPagina;
+    const usuariosPagina = usuarios.slice(inicio, fin);
+
+    // Agregar las filas correspondientes
+    usuariosPagina.forEach(usuario => {
+        const nuevaFila = document.createElement('tr');
+        nuevaFila.innerHTML = `
+            <td>${usuario.nombre}</td>
+            <td>${usuario.apellidos}</td>
+            <td>${usuario.correo_electronico}</td>
+            <td>${usuario.telefono}</td>
+            <td><span class="badge bg-label-primary">${usuario.rol}</span></td>
+            <td>
+                <div class="dropdown">
+                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                        <i class="bx bx-dots-vertical-rounded"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="javascript:void(0);" onclick="eliminarUsuario(${usuario.id})"><i class="bx bx-trash me-1"></i> Eliminar</a>
+                    </div>
+                </div>
+            </td>
+        `;
+        tableBody.appendChild(nuevaFila);
+    });
+}
+
+// Función para configurar los botones de paginación
+function configurarPaginacion() {
+    const totalPaginas = Math.ceil(usuarios.length / registrosPorPagina);
+    const paginacionDiv = document.getElementById('paginacion');
+
+    // Limpiar los botones de paginación previos
+    paginacionDiv.innerHTML = '';
+
+    // Agregar los botones de paginación
+    for (let i = 1; i <= totalPaginas; i++) {
+        const boton = document.createElement('button');
+        boton.classList.add('btn', 'btn-secondary', 'm-1');
+        boton.innerText = i;
+        boton.onclick = function() {
+            paginaActual = i;
+            mostrarUsuarios();  // Mostrar los usuarios de la página seleccionada
+        };
+        if (i === paginaActual) {
+            boton.classList.add('active');
+        }
+        paginacionDiv.appendChild(boton);
+    }
 }
 
 // Función para validar los campos del formulario
@@ -194,4 +239,27 @@ const modal = new bootstrap.Modal(modalElement);
 // Escuchar el evento 'hidden.bs.modal' para limpiar el formulario cuando el modal se cierra
 modalElement.addEventListener('hidden.bs.modal', function () {
     limpiarFormulario(); // Limpiar campos cuando el modal se cierre
+});
+
+/** FUNCION BUSCAR */
+function buscarUsuario(criterio) {
+    fetch(`../models/M_Search_User.php?criterio=${encodeURIComponent(criterio)}`, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        usuarios = data;  // Asignar los usuarios filtrados por la búsqueda
+        paginaActual = 1;  // Reseteamos la página a la 1 al hacer una nueva búsqueda
+        mostrarUsuarios();  // Mostrar los usuarios filtrados con paginación
+        configurarPaginacion();  // Configurar nuevamente los botones de paginación
+    })
+    .catch(error => {
+        console.error('Error al buscar usuarios:', error);
+    });
+}
+
+// Evento de búsqueda en tiempo real
+document.getElementById('searchInput').addEventListener('input', function () {
+    const criterio = this.value.trim();
+    buscarUsuario(criterio); // Filtrar usuarios en función del criterio ingresado
 });

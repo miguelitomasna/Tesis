@@ -15,18 +15,6 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
 ?>
 
 <!DOCTYPE html>
-
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
- -->
 <!-- beautify ignore:start -->
 <html
   lang="en"
@@ -43,7 +31,7 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Dashboard - Fiscalía de Huánuco</title>
+    <title>AI Reportes - Fiscalía de Huánuco</title>
 
     <meta name="description" content="" />
 
@@ -69,8 +57,6 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
-
     <!-- Page CSS -->
 
     <!-- Helpers -->
@@ -79,9 +65,6 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
-    
-    <!-- Biblioteca Chart -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
@@ -105,7 +88,7 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
 
             <ul class="menu-inner py-1">
                 <!-- Dashboard -->
-                <li class="menu-item active">
+                <li class="menu-item">
                     <a href="dashboard.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Dashboard</div>
@@ -122,7 +105,7 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
                 </li>
                 <?php } ?>
 
-                <li class="menu-item">
+                <li class="menu-item active">
                     <a href="report_assistant.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-brain"></i>
                         <div data-i18n="Tables">AI Reportes</div>
@@ -146,10 +129,9 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
         </aside>
         <!-- / Menu -->
 
-
         <!-- Layout container -->
         <div class="layout-page">
-          
+          <!-- Navbar -->
         <!-- Nav inicio -->
         <nav
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
@@ -162,8 +144,7 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
             </div>
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-
-              <!-- Dashboard Welcome Message with Slower Sound Animation using Bootstrap only -->
+              <!-- Welcome Message with Slower Sound Animation using Bootstrap only -->
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
                   <!-- Slower Sound Wave Animation with Bootstrap spinners -->
@@ -172,13 +153,13 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
                     <i class="spinner-grow text-primary ms-1" role="status" style="width: 0.75rem; height: 0.75rem; animation-duration: 2s;"></i>
                     <i class="spinner-grow text-primary ms-1" role="status" style="width: 1rem; height: 1rem; animation-duration: 2s;"></i>
                   </div>
-                  <!-- Welcome Text for the Dashboard -->
-                  <span class="text-muted ms-2">
-                    ¡Hola! Bienvenido al <strong>Dashboard</strong>. Aquí puedes gestionar tus reportes, análisis y métricas en tiempo real.
+                  <!-- Welcome Text -->
+                  <span class="text-muted">
+                    ¡Hola! Bienvenido al módulo de<strong> AI Reportes</strong>. Usa tu voz para enviar reportes en tiempo real. ¡La IA está escuchando!
                   </span>
                 </div>
               </div>
-              <!-- /Dashboard Welcome Message with Slower Sound Animation using Bootstrap only -->
+              <!-- /Welcome Message with Slower Sound Animation using Bootstrap only -->
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Microphone Button -->
@@ -229,42 +210,112 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
               </ul>
             </div>
           </nav>
+          <!-- / Navbar -->
 
         <!-- Content wrapper -->
         <div class="content-wrapper">
             <!-- Content -->
             <div class="container-xxl flex-grow-1 container-p-y">
-                <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Fiscalía de Huánuco /</span> Dashboard</h4>
+                <h4 class="fw-bold py-3 mb-4">
+                    <span class="text-muted fw-light">Fiscalía de Huánuco /</span> AI Reportes
+                </h4>
 
-                <!-- Tarjeta para los gráficos -->
-                <div class="card">
-                    <h5 class="card-header">Gráficos de Actividad</h5>
-                    <div class="card-body">
-                        <div class="row">
-                            <!-- Gráfico de barras -->
-                            <div class="col-lg-6 col-md-12 mb-4">
-                                <canvas id="usuariosBarChart" style="max-height: 330px;"></canvas>
+                <div class="row">
+                    <!-- Instruction Manual (Left Side) -->
+                    <div class="col-md-4 d-flex align-items-stretch">
+                        <div class="card w-100">
+                            <!-- Card Header -->
+                            <div class="card-header" style="background-color: #566a7f; border-bottom: 1px solid #e0e0e0; text-align: center;">
+                                <h5 class="mb-0" style="color: white;">Cómo Usar el Asistente Virtual</h5>
                             </div>
-
-                            <!-- Gráfico circular -->
-                            <div class="col-lg-6 col-md-12 mb-4">
-                                <canvas id="usuariosPieChart" style="max-height: 330px;"></canvas>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <ul class="list-unstyled"><br>
+                                    <li class="mb-3">
+                                        <strong>1. Inicia el Chat:</strong> El asistente comenzará pidiéndote tu nombre. Solo tienes que decirlo en voz alta para que lo registre y empiece el proceso.
+                                    </li>
+                                    <li class="mb-3">
+                                        <strong>2. Destinatario:</strong> El asistente te preguntará a quién va dirigido el mensaje. Dile en voz alta a quién enviar el mensaje y el asistente se encargará del resto.
+                                    </li>
+                                    <li class="mb-3">
+                                        <strong>3. Descripción del Problema:</strong> El asistente te pedirá que expliques brevemente el problema. Usará esta información para analizar y ofrecerte una solución.
+                                    </li>
+                                    <li class="mb-3">
+                                        <strong>4. Enviar Mensajes:</strong> En este paso, el asistente te pedirá adjuntar una imagen. Sigue las recomendaciones para asegurarte de que todo esté correcto antes de enviarla.
+                                    </li>
+                                    <li class="mb-3">
+                                        <strong>5. Consulta de Correo:</strong> El asistente te proporcionará los correos electrónicos relevantes para contactar según tu problema. Solo menciona el área a la que deseas contactar:
+                                        <ul>
+                                            <li><strong>Técnico:</strong> <a href="mailto:atenciodelacruzmiguelangel@gmail.com">atenciodelacruzmiguelangel@gmail.com</a></li>
+                                            <li><strong>Sistemas:</strong> <a href="mailto:mpfnlima96@gmail.com">mpfnlima96@gmail.com</a></li>
+                                            <li><strong>Base de Datos:</strong> <a href="mailto:ingenierobasedato@gmail.com">ingenierobasedato@gmail.com</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>6. Resolución de Problemas:</strong> El asistente te dará soluciones rápidas y guiará con pasos sencillos.
+                                    </li>
+                                </ul>
+                                <p><strong>Nota:</strong> Si el asistente no puede resolver tu problema, te conectará con un técnico humano para asistencia adicional.</p>
                             </div>
                         </div>
-                        
-                        <div class="row">
-                            <!-- Gráfico de porcentajes -->
-                            <div class="col-lg-6 col-md-12 mb-4">
-                                <canvas id="usuariosDoughnutChart" style="max-height: 330px;"></canvas>
+                    </div>
+
+                    <!-- Chatbot (Right Side) -->
+                    <div class="col-md-8 d-flex align-items-stretch">
+                        <div class="card w-100">
+                            <!-- Header with Bot Avatar and Professional Layout -->
+                            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #f8f9fa; border-bottom: 1px solid #e0e0e0;">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 50px; height: 50px; font-weight: bold;">
+                                        <i class="bi bi-robot"></i> <!-- Bot Icon -->
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-0">Soporte Técnico</h5>
+                                        <small class="text-muted">Asistente Virtual</small>
+                                    </div>
+                                </div>
+                                <div class="status-indicator d-flex align-items-center">
+                                    <span class="badge bg-success rounded-circle" style="width: 10px; height: 10px; margin-right: 5px;"></span>
+                                    <small class="text-muted">En línea</small>
+                                </div>
                             </div>
 
-                            <!-- Gráfico de líneas o histograma -->
-                            <div class="col-lg-6 col-md-12 mb-4">
-                                <canvas id="usuariosLineChart" style="max-height: 330px;"></canvas>
+                            <!-- Chat Body -->
+                            <div class="card-body chat-box" style="overflow-y: auto; padding: 15px;">
+                                <!-- Chat Messages -->
+                            </div>
+
+                            <div class="card-footer d-flex justify-content-center align-items-center">
+                                <form id="chatForm" class="d-flex align-items-center justify-content-center w-100" onsubmit="sendData(event)" method="POST" action="../models/M_Send_Problem.php" enctype="multipart/form-data">
+                                    <!-- Button for Attach File -->
+                                    <button type="button" class="btn btn-light me-2" onclick="document.getElementById('attachFile').click();">
+                                        <i class="bi bi-paperclip me-2"></i>Adjuntar archivo
+                                    </button>
+
+                                    <!-- File Input (Hidden) -->
+                                    <input type="file" class="dropdown-item" id="attachFile" style="display: none;" onchange="uploadFile()">
+
+                                    <!-- Button for Microphone -->
+                                    <button type="button" class="btn btn-light me-2" onclick="startRecognition()">
+                                        <i class="bi bi-mic me-2"></i>Usar micrófono
+                                    </button>
+
+                                    <button type="button" class="btn btn-light me-2" onclick="reloadPage()">
+                                        <i class="bi bi-x-circle me-2"></i>Limpiar
+                                    </button>
+
+                                    <!-- Button for Send -->
+                                    <button type="submit" class="btn btn-light ms-2">
+                                        <i class="bi bi-send me-2"></i>Enviar
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Icons Dependency (Bootstrap Icons) -->
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
             </div>
             <!-- / Content -->
         </div>
@@ -333,20 +384,17 @@ if ($_SESSION['rol'] != 'Administrador' && basename($_SERVER['PHP_SELF']) != 'da
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
     <script src="../assets/vendor/js/menu.js"></script>
+    <script src="../js/panel_report_assistant/index.js"></script>
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
     <!-- Main JS -->
     <script src="../assets/js/main.js"></script>
     <script src="../js/microphone.js"></script>
-    <script src="../js/graphics.js"></script>
 
     <!-- Page JS -->
-    <script src="../assets/js/dashboards-analytics.js"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
-</html>
